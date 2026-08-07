@@ -23,3 +23,7 @@ Each example is self-contained — data preparation, training, and evaluation �
 | Example | Description |
 | ------- | ----------- |
 | _Coming soon_ | |
+
+## License
+
+[Apache License 2.0](LICENSE) — free to use, modify, and build on, including commercially.
