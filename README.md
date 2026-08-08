@@ -24,6 +24,10 @@ Each example is self-contained — data preparation, training, and evaluation �
 | ------- | ----------- |
 | _Coming soon_ | |
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) — in particular the setup step that installs the leak-prevention hooks.
+
 ## License
 
 [Apache License 2.0](LICENSE) — free to use, modify, and build on, including commercially.

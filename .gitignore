@@ -1,0 +1,31 @@
+# Never commit credentials or local configuration.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+kubeconfig
+kubeconfig.*
+*.kubeconfig
+credentials.json
+service-account*.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local scratch — never tracked, so half-sanitized drafts can't be committed.
+scratch/
