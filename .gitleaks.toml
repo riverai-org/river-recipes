@@ -1,0 +1,55 @@
+# Gitleaks configuration for river-examples.
+#
+# Extends the default ruleset (200+ provider patterns) with rules specific to
+# this repository. Run locally via `make setup` (installs the pre-commit hook)
+# or on demand with `make check`. CI runs the same config over full history.
+#
+# Maintainers additionally load a supplemental internal pattern file that is
+# not part of this repository; see CONTRIBUTING.md.
+
+title = "river-examples gitleaks config"
+
+[extend]
+useDefault = true
+
+# River API keys: "rv_" + base64url encoding of 32 random bytes (43 chars, no
+# padding). Documentation placeholders like rv_... are too short to match.
+[[rules]]
+id = "river-api-key"
+description = "River API key"
+regex = '''\brv_[A-Za-z0-9_-]{40,}'''
+keywords = ["rv_"]
+
+[[rules]]
+id = "kubeconfig-embedded-credential"
+description = "kubeconfig embedded client credential"
+regex = '''(client-key-data|client-certificate-data|token):\s*\S+'''
+keywords = ["client-key-data", "client-certificate-data"]
+
+# .internal / .corp / .lan hostnames identify private infrastructure. Examples
+# must use *.river.ai, localhost, cluster-local names, or RFC 2606 example
+# domains instead.
+[[rules]]
+id = "private-network-hostname"
+description = "Hostname on a private-network TLD"
+regex = '''[a-z0-9][a-z0-9.-]*\.(internal|corp|lan)\b'''
+keywords = [".internal", ".corp", ".lan"]
+
+# ECR registry hostnames embed a 12-digit AWS account id.
+[[rules]]
+id = "aws-account-registry"
+description = "Registry hostname embedding an AWS account id"
+regex = '''\b[0-9]{12}\.dkr\.ecr\.[a-z0-9-]+\.amazonaws\.com'''
+keywords = ["dkr.ecr"]
+
+# A path under a user's home directory carries a username and is meaningless
+# on any other machine. Use relative paths or environment variables.
+[[rules]]
+id = "home-directory-path"
+description = "Absolute path under a user home directory"
+regex = '''(?i)[/\\](Users|home)[/\\]+[A-Za-z0-9._-]+'''
+keywords = ["/Users/", "/home/", "\\Users\\", "\\home\\"]
+
+  [[rules.allowlists]]
+  condition = "OR"
+  regexes = ['''[/\\](Users|home)[/\\]+(runner|<[^>]+>|\$\{?[A-Za-z_]+)''']

@@ -1,0 +1,38 @@
+# Leak tripwire. This runs AFTER a push, which means anything it catches has
+# already left the building: a red run here is an incident (rotate the
+# credential, then see CONTRIBUTING.md), never something to fix-forward and
+# merge. Prevention lives in the pre-commit hooks and push protection; this
+# workflow exists to catch what slipped past them.
+#
+# Deliberately no `paths:` filter — every change to every file is scanned.
+name: guard
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history: old commits are as public as new ones
+
+      - name: Install gitleaks (pinned)
+        run: |
+          set -euo pipefail
+          curl -sSL -o gitleaks.tar.gz \
+            https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf gitleaks.tar.gz gitleaks
+          sudo mv gitleaks /usr/local/bin/
+
+      - name: gitleaks (full history)
+        run: gitleaks git --redact --no-banner --max-archive-depth 2
+
+      - name: public vocabulary guard
+        run: python3 scripts/check_public_vocabulary.py
