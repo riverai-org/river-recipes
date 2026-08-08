@@ -10,9 +10,10 @@ brew install gitleaks pre-commit   # or your platform's equivalent
 make setup                         # installs the pre-commit hooks
 ```
 
-The hooks scan staged content for credentials and non-public infrastructure
-references before every commit. `make check` runs the same scans over the
-whole repository and its full git history.
+This installs two hooks: a commit-time scan of staged content, and a
+push-time re-scan of every outgoing commit (the backstop if a commit was made
+before setup or with `--no-verify`). `make check` runs the same scans over
+the whole repository and its full git history.
 
 ## The one hard rule: nothing private, ever, in any commit
 

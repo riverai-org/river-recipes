@@ -1,6 +1,16 @@
-# Install once per clone: `make setup` (runs `pre-commit install`).
-# These hooks scan STAGED content before every commit. They are a fast local
-# safety net, not the enforcement layer — CI re-checks everything.
+# Install once per clone: `make setup` (runs `pre-commit install`, which
+# installs BOTH stages below).
+#
+# Two gates:
+#   pre-commit — scans STAGED content (fast fail while the fix is one
+#     `git reset` away).
+#   pre-push — re-scans every outgoing commit. This is the backstop for
+#     commits made with --no-verify or in a clone that skipped setup: nothing
+#     containing a secret should ever cross the push boundary, because pushed
+#     history is permanently fetchable on GitHub.
+# CI re-checks everything; these hooks exist so mistakes stay local.
+default_install_hook_types: [pre-commit, pre-push]
+
 repos:
   - repo: local
     hooks:
@@ -9,14 +19,24 @@ repos:
         entry: scripts/scan-staged.sh
         language: script
         pass_filenames: false
+        stages: [pre-commit]
       - id: public-vocabulary
         name: public vocabulary guard (staged)
         entry: python3 scripts/check_public_vocabulary.py --staged
         language: system
         pass_filenames: false
+        stages: [pre-commit]
+      - id: gitleaks-outgoing
+        name: gitleaks (outgoing commits)
+        entry: scripts/scan-push.sh
+        language: script
+        pass_filenames: false
+        stages: [pre-push]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: check-added-large-files
         args: ["--maxkb=512"]
+        stages: [pre-commit]
       - id: check-merge-conflict
+        stages: [pre-commit]
