@@ -15,6 +15,13 @@ push-time re-scan of every outgoing commit (the backstop if a commit was made
 before setup or with `--no-verify`). `make check` runs the same scans over
 the whole repository and its full git history.
 
+Pull requests must pass four required checks before merge: `guard` (secret
+and internal-reference scanning), `lint` (ruff), `examples` (each example's
+offline tests, dependency vulnerability audit, and a permissive-license
+allowlist), and `docker` (every example image builds). CI is hermetic — it
+holds no API keys and runs no live evals — so an example's tests must run
+offline.
+
 ## The one hard rule: nothing private, ever, in any commit
 
 This is a public repository. Git history is permanent — on GitHub, even
