@@ -32,7 +32,7 @@ jobs:
           sudo mv gitleaks /usr/local/bin/
 
       - name: gitleaks (full history)
-        run: gitleaks git --redact --no-banner
+        run: gitleaks git --redact --no-banner --max-archive-depth 2
 
       - name: public vocabulary guard
         run: python3 scripts/check_public_vocabulary.py

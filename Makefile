@@ -10,6 +10,6 @@ setup:
 # Full sweep: gitleaks over the entire git history + the public-vocabulary
 # guard over all tracked files. CI runs the same two checks.
 check:
-	gitleaks git --redact --no-banner
+	gitleaks git --redact --no-banner --max-archive-depth 2
 	python3 scripts/check_public_vocabulary.py
 	@echo "check passed"

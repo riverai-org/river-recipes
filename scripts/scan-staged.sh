@@ -17,12 +17,15 @@ fi
 
 fail=0
 
-if ! gitleaks git --pre-commit --staged --redact --no-banner; then
+# Note: base64/nested decoding is on by default (--max-decode-depth 5), so
+# encoded secrets are matched too. Archive traversal is NOT on by default;
+# depth 2 covers a tarball inside the repo.
+if ! gitleaks git --pre-commit --staged --redact --no-banner --max-archive-depth 2; then
     fail=1
 fi
 
 if [[ -f "$PRIVATE_CONFIG" ]]; then
-    if ! gitleaks git --pre-commit --staged --redact --no-banner --config "$PRIVATE_CONFIG"; then
+    if ! gitleaks git --pre-commit --staged --redact --no-banner --max-archive-depth 2 --config "$PRIVATE_CONFIG"; then
         fail=1
     fi
 else
