@@ -172,12 +172,15 @@ def check_text(rel_path: str, text: str) -> list[str]:
                 f"{rel_path}:{lineno}: home-path: {redact(match.group(0))} — use relative paths"
             )
 
-    if is_k8s_secret and not is_example:
-        if re.search(r"^\s*(data|stringData):", text, re.MULTILINE):
-            violations.append(
-                f"{rel_path}: k8s-secret: Secret manifests with data must be "
-                f"*.example.yaml templates with placeholder values"
-            )
+    if (
+        is_k8s_secret
+        and not is_example
+        and re.search(r"^\s*(data|stringData):", text, re.MULTILINE)
+    ):
+        violations.append(
+            f"{rel_path}: k8s-secret: Secret manifests with data must be "
+            f"*.example.yaml templates with placeholder values"
+        )
 
     return violations
 

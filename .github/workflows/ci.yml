@@ -1,0 +1,98 @@
+# Per-PR quality checks. Security scanning lives in guard.yml; together with
+# it, these are the required checks for merging to main.
+#
+# Design constraints:
+# - Hermetic: no secrets, no API keys, no network beyond package installs.
+#   Fork PRs run everything safely because there is nothing to exfiltrate.
+# - Example discovery is dynamic: any top-level directory with a
+#   pyproject.toml is an example. With none present, jobs pass with a notice.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: ruff
+        run: |
+          pip install --quiet ruff==0.16.2
+          ruff check .
+
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Offline tests, license allowlist, and vulnerability audit per example
+        run: |
+          set -euo pipefail
+          pip install --quiet pip-licenses==5.5.5
+          found=0
+          for project in */pyproject.toml; do
+            [ -e "$project" ] || continue
+            found=1
+            dir=$(dirname "$project")
+            echo "::group::$dir"
+            python -m venv ".ci-venv-$dir"
+            ".ci-venv-$dir/bin/pip" install --quiet -e "./$dir"
+
+            if [ -d "$dir/tests" ]; then
+              ".ci-venv-$dir/bin/python" -m unittest discover -s "$dir/tests" -t "$dir"
+            else
+              echo "$dir has no tests/ directory" >&2
+              exit 1
+            fi
+
+            # Examples are embedded into customer codebases wholesale; keep
+            # every dependency under a permissive license. Runs BEFORE the
+            # audit tool is installed into the venv, so only real
+            # dependencies are judged.
+            python scripts/check_dependency_licenses.py \
+              --python ".ci-venv-$dir/bin/python"
+
+            # Known-vulnerability audit of the example's resolved
+            # dependencies (pip-audit audits the environment it runs in).
+            ".ci-venv-$dir/bin/pip" install --quiet pip-audit==2.10.1
+            ".ci-venv-$dir/bin/pip-audit" --skip-editable
+            echo "::endgroup::"
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "No examples yet — nothing to test."
+          fi
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Build every example image
+        run: |
+          set -euo pipefail
+          found=0
+          for dockerfile in */Dockerfile; do
+            [ -e "$dockerfile" ] || continue
+            found=1
+            dir=$(dirname "$dockerfile")
+            echo "::group::$dir"
+            docker build -t "ci-$dir" "$dir"
+            echo "::endgroup::"
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "No Dockerfiles yet — nothing to build."
+          fi
