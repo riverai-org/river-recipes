@@ -20,6 +20,11 @@ venv/
 *.egg-info/
 dist/
 build/
+.ruff_cache/
+.pytest_cache/
+
+# Example working data (downloaded datasets, eval run records).
+data/
 
 # Editors and OS
 .DS_Store

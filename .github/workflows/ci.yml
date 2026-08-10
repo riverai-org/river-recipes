@@ -54,7 +54,9 @@ jobs:
             ".ci-venv-$dir/bin/pip" install --quiet -e "./$dir"
 
             if [ -d "$dir/tests" ]; then
-              ".ci-venv-$dir/bin/python" -m unittest discover -s "$dir/tests" -t "$dir"
+              # Run from inside the example, exactly as a developer would.
+              # `-t` would require tests/ to be an importable package.
+              ( cd "$dir" && "../.ci-venv-$dir/bin/python" -m unittest discover -s tests )
             else
               echo "$dir has no tests/ directory" >&2
               exit 1
