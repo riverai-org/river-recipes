@@ -1,6 +1,6 @@
-# River Examples
+# River Recipes
 
-Open-source examples from [river.ai](https://river.ai) showing how to train LoRAs with the River API.
+Open-source recipes from [river.ai](https://river.ai) showing how to train LoRAs with the River API.
 
 ## The River API
 
