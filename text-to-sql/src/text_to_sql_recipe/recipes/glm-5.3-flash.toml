@@ -1,0 +1,16 @@
+# GLM-5.3 Flash. Settings not listed here use the recipe defaults in text_to_sql_recipe/config.py.
+
+[model]
+name = "zai-org/GLM-5.3-Flash"
+tokenizer_revision = "04c4e9e95c5da8862dced7e5056455116f83a7e0"  # a public Hugging Face commit (gitleaks:allow)
+routing_replay = true
+reasoning_effort = "max"                   # its highest; also the chat template default
+
+[training]
+num_train_epochs = 7
+
+[evaluation]
+concurrency = 128
+
+[execution]
+max_concurrent_rollouts = 256

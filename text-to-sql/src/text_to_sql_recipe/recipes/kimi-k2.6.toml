@@ -1,0 +1,9 @@
+# Kimi K2.6. Settings not listed here use the recipe defaults in text_to_sql_recipe/config.py.
+
+[model]
+name = "nvidia/Kimi-K2.6-NVFP4"
+tokenizer_revision = "2fd3a800dedd098b8327eb49e93ebc75f85da19f"  # a public Hugging Face commit (gitleaks:allow)
+routing_replay = true
+
+[execution]
+verifier_workers = 8

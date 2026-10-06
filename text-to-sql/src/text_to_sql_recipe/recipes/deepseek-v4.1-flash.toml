@@ -1,0 +1,10 @@
+# DeepSeek V4.1 Flash. Settings not listed here use the recipe defaults in text_to_sql_recipe/config.py.
+
+[model]
+name = "deepseek-ai/DeepSeek-V4.1-Flash"
+tokenizer_revision = "dba1be0a40aa45a94ad051997016db3960a90277"  # a public Hugging Face commit (gitleaks:allow)
+routing_replay = true
+reasoning_effort = "max"                   # its highest; the default is "high"
+
+[rollout]
+max_tokens_per_turn = 8192

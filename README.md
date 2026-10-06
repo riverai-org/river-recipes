@@ -22,7 +22,7 @@ Each example is self-contained â€” data preparation, training, and evaluation â€
 
 | Example | Description |
 | ------- | ----------- |
-| _Coming soon_ | |
+| [text-to-sql](text-to-sql/) | Multi-turn text-to-SQL with reinforcement learning: the model explores a SQLite database with a SQL tool, then commits one query. Trains on BIRD-Platinum and evaluates on Arcwise-Plat-SQL. |
 
 ## Contributing
 

@@ -1,0 +1,9 @@
+# Nemotron 3.5 Lightning. Settings not listed here use the recipe defaults in text_to_sql_recipe/config.py.
+
+[model]
+name = "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4"
+tokenizer_revision = "bee7596271d1495f6992ae224aefde4410e816b8"  # a public Hugging Face commit (gitleaks:allow)
+routing_replay = true
+
+[training]
+num_train_epochs = 7

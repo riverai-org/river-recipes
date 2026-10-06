@@ -1,0 +1,15 @@
+# Qwen3.6-35B-A3B. Settings not listed here use the recipe defaults in text_to_sql_recipe/config.py.
+
+[model]
+name = "Qwen/Qwen3.6-35B-A3B-FP8"
+tokenizer_revision = "995ad96eacd98c81ed38be0c5b274b04031597b0"  # a public Hugging Face commit (gitleaks:allow)
+routing_replay = true
+
+[reward]
+tool_format_penalty = 0.05
+
+[evaluation]
+concurrency = 128
+
+[execution]
+max_concurrent_rollouts = 256
