@@ -50,7 +50,9 @@ jobs:
             found=1
             dir=$(dirname "$project")
             echo "::group::$dir"
-            python -m venv ".ci-venv-$dir"
+            # --upgrade-deps: pip-audit audits the whole venv, including the pip that `venv` bundles, which can be
+            # older than the latest fixes regardless of the example.
+            python -m venv --upgrade-deps ".ci-venv-$dir"
             ".ci-venv-$dir/bin/pip" install --quiet -e "./$dir"
 
             if [ -d "$dir/tests" ]; then
@@ -73,6 +75,13 @@ jobs:
             # dependencies (pip-audit audits the environment it runs in).
             ".ci-venv-$dir/bin/pip" install --quiet pip-audit==2.10.1
             ".ci-venv-$dir/bin/pip-audit" --skip-editable
+
+            # The full suite, with the example's `test` extra: tests that
+            # need optional packages skip in the minimal install above. A venv
+            # of its own keeps test-only packages out of the license audit.
+            python -m venv --upgrade-deps ".ci-venv-full-$dir"
+            ".ci-venv-full-$dir/bin/pip" install --quiet -e "./$dir[test]"
+            ( cd "$dir" && "../.ci-venv-full-$dir/bin/python" -m unittest discover -s tests )
             echo "::endgroup::"
           done
           if [ "$found" -eq 0 ]; then

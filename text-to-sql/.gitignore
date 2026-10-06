@@ -1,0 +1,11 @@
+# Local environments, caches and build output; the sdist ships this file in place of any enclosing repository's.
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+# What `setup data` and `train` write into the example by default.
+data/
+runs/

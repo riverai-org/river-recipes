@@ -58,6 +58,7 @@ ALLOWED_HOST_SUFFIXES = {
     "k8s.io",
     "apache.org",
     "opensource.org",
+    "creativecommons.org",  # licence links (text-to-sql names VeriEQL's CC BY-NC-SA licence)
 }
 
 # Hostname-shaped tokens are only interesting when they end in a TLD that real
@@ -83,6 +84,12 @@ ALLOWED_IP_PREFIXES = (
     "169.254.",
 )
 ALLOWED_IPS = {"8.8.8.8", "8.8.4.4", "1.1.1.1"}
+
+# Four-part package versions that are also valid dotted quads; each names the
+# package it pins.
+ALLOWED_VERSION_QUADS = {
+    "4.13.0.0",  # z3-solver, pinned by text-to-sql's VeriEQL setup
+}
 
 SKIP_FILES = {".gitleaks.toml"}  # pattern definitions, not content
 SKIP_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".woff", ".woff2", ".pdf"}
@@ -140,7 +147,7 @@ def check_text(rel_path: str, text: str) -> list[str]:
 
         for match in IP_RE.finditer(line):
             ip = match.group(0)
-            if ip in ALLOWED_IPS or ip.startswith(ALLOWED_IP_PREFIXES):
+            if ip in ALLOWED_IPS or ip in ALLOWED_VERSION_QUADS or ip.startswith(ALLOWED_IP_PREFIXES):
                 continue
             if any(int(octet) > 255 for octet in ip.split(".")):
                 continue  # version-like token, not an address
@@ -160,6 +167,8 @@ def check_text(rel_path: str, text: str) -> list[str]:
 
         for match in NAMESPACE_RE.finditer(line):
             ns = match.group(1)
+            if rel_path.endswith(".py") and ns == "str":
+                continue  # a Python annotation (`namespace: str = ...`), not a manifest value
             if ns.lower() not in ALLOWED_NAMESPACES and not ns.startswith("<"):
                 violations.append(
                     f"{rel_path}:{lineno}: namespace: {redact(ns)} — use a generic namespace"

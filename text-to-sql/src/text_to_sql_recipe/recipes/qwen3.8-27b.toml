@@ -1,0 +1,19 @@
+# Qwen3.8-27B. Settings not listed here use the recipe defaults in text_to_sql_recipe/config.py.
+
+[model]
+name = "Qwen/Qwen3.8-27B-FP8"
+tokenizer_revision = "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a"  # a public Hugging Face commit (gitleaks:allow)
+keep_thinking_in_history = true
+reasoning_effort = "xhigh"                 # its highest; also the chat template default
+
+[rollout]
+max_tokens_per_turn = 8192
+
+[reward]
+tool_format_penalty = 0.05
+
+[evaluation]
+concurrency = 128
+
+[execution]
+max_concurrent_rollouts = 192

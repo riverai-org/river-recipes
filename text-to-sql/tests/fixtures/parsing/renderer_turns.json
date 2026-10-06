@@ -1,0 +1,1526 @@
+[
+ {
+  "preset": "glm-5.3-flash",
+  "name": "native call",
+  "sampled_text": "I should count the pigs.</think>\nRequirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n<tool_call>execute_sql_query<arg_key>query</arg_key><arg_value>SELECT COUNT(*) FROM animals WHERE species = 'pig';</arg_value></tool_call><|observation|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "I should count the pigs."
+    },
+    {
+     "type": "text",
+     "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n"
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "execute_sql_query",
+      "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "I should count the pigs."
+     },
+     {
+      "type": "text",
+      "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n"
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "execute_sql_query",
+       "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT COUNT(*) FROM animals WHERE species = 'pig';"
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+  }
+ },
+ {
+  "preset": "glm-5.3-flash",
+  "name": "demonstration call form, rejected by the renderer",
+  "sampled_text": "The demonstration shows the call format.</think>\nRequirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call><|observation|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "The demonstration shows the call format."
+    },
+    {
+     "type": "text",
+     "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n"
+    }
+   ],
+   "unparsed_tool_calls": [
+    {
+     "raw_text": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call>",
+     "error": "Invalid GLM function name: \"<function=execute_sql_query>\\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\\n</function>\""
+    }
+   ]
+  },
+  "expected": {
+   "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n",
+   "execution_message": {
+    "role": "assistant",
+    "content": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call>",
+    "unparsed_tool_calls": [
+     {
+      "raw_text": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call>",
+      "error": "Invalid GLM function name: \"<function=execute_sql_query>\\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\\n</function>\""
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT COUNT(*) FROM animals WHERE species = 'pig';"
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": false,
+   "answer": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call>"
+  }
+ },
+ {
+  "preset": "glm-5.3-flash",
+  "name": "rejected call followed by a premature answer",
+  "sampled_text": "Check first.</think>\nLet me check.\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call>\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution><|observation|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Check first."
+    },
+    {
+     "type": "text",
+     "text": "Let me check.\n"
+    },
+    {
+     "type": "text",
+     "text": "\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+    }
+   ],
+   "unparsed_tool_calls": [
+    {
+     "raw_text": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call>",
+     "error": "Invalid GLM function name: \"<function=execute_sql_query>\\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\\n</function>\""
+    }
+   ]
+  },
+  "expected": {
+   "text": "Let me check.\n\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>",
+   "execution_message": {
+    "role": "assistant",
+    "content": "Let me check.\n\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution><tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call>",
+    "unparsed_tool_calls": [
+     {
+      "raw_text": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call>",
+      "error": "Invalid GLM function name: \"<function=execute_sql_query>\\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\\n</function>\""
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT COUNT(*) FROM animals WHERE species = 'pig';"
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": false,
+   "answer": "Let me check.\n\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution><tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT COUNT(*) FROM animals WHERE species = 'pig';</parameter>\n</function>\n</tool_call>"
+  }
+ },
+ {
+  "preset": "glm-5.3-flash",
+  "name": "JSON call form, rejected by the renderer",
+  "sampled_text": "Use JSON.</think>\n<tool_call>{\"name\": \"execute_sql_query\", \"arguments\": {\"query\": \"SELECT 1\"}}</tool_call><|observation|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Use JSON."
+    }
+   ],
+   "unparsed_tool_calls": [
+    {
+     "raw_text": "<tool_call>{\"name\": \"execute_sql_query\", \"arguments\": {\"query\": \"SELECT 1\"}}</tool_call>",
+     "error": "Invalid GLM function name: '{\"name\": \"execute_sql_query\", \"arguments\": {\"query\": \"SELECT 1\"}}'"
+    }
+   ]
+  },
+  "expected": {
+   "text": "",
+   "execution_message": {
+    "role": "assistant",
+    "content": "<tool_call>{\"name\": \"execute_sql_query\", \"arguments\": {\"query\": \"SELECT 1\"}}</tool_call>",
+    "unparsed_tool_calls": [
+     {
+      "raw_text": "<tool_call>{\"name\": \"execute_sql_query\", \"arguments\": {\"query\": \"SELECT 1\"}}</tool_call>",
+      "error": "Invalid GLM function name: '{\"name\": \"execute_sql_query\", \"arguments\": {\"query\": \"SELECT 1\"}}'"
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT 1"
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": false,
+   "answer": "<tool_call>{\"name\": \"execute_sql_query\", \"arguments\": {\"query\": \"SELECT 1\"}}</tool_call>"
+  }
+ },
+ {
+  "preset": "glm-5.3-flash",
+  "name": "call cut off at the token cap",
+  "sampled_text": "Checking.</think>\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT name FROM animals WHERE",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Checking."
+    }
+   ],
+   "unparsed_tool_calls": [
+    {
+     "raw_text": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT name FROM animals WHERE",
+     "error": "Unclosed GLM tool call"
+    }
+   ]
+  },
+  "expected": {
+   "text": "",
+   "execution_message": {
+    "role": "assistant",
+    "content": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT name FROM animals WHERE",
+    "unparsed_tool_calls": [
+     {
+      "raw_text": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT name FROM animals WHERE",
+      "error": "Unclosed GLM tool call"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": true,
+   "intent_kimi_markers": false,
+   "answer": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>SELECT name FROM animals WHERE"
+  }
+ },
+ {
+  "preset": "glm-5.3-flash",
+  "name": "unknown tool",
+  "sampled_text": "List the tables.</think>\n<tool_call>list_tables</tool_call><|observation|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "List the tables."
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "list_tables",
+      "arguments": "{}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "List the tables."
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "list_tables",
+       "arguments": "{}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "list_tables",
+     "arguments": {},
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": ""
+  }
+ },
+ {
+  "preset": "glm-5.3-flash",
+  "name": "answer",
+  "sampled_text": "The count is confirmed.</think>\nVerification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution><|user|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "The count is confirmed."
+    },
+    {
+     "type": "text",
+     "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+    }
+   ]
+  },
+  "expected": {
+   "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "The count is confirmed."
+     },
+     {
+      "type": "text",
+      "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+  }
+ },
+ {
+  "preset": "glm-5.3-flash",
+  "name": "cut off while reasoning",
+  "sampled_text": "I need to look at the schema. A draft: <solution>SELECT 1</solution> but let me",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "I need to look at the schema. A draft: <solution>SELECT 1</solution> but let me"
+    }
+   ]
+  },
+  "expected": {
+   "text": "",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "I need to look at the schema. A draft: <solution>SELECT 1</solution> but let me"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": ""
+  }
+ },
+ {
+  "preset": "kimi-k2.6",
+  "name": "section call",
+  "sampled_text": "I will count the pigs.</think>Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}<|tool_call_end|><|tool_calls_section_end|><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "I will count the pigs."
+    },
+    {
+     "type": "text",
+     "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": "functions.execute_sql_query:0",
+     "function": {
+      "name": "execute_sql_query",
+      "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "I will count the pigs."
+     },
+     {
+      "type": "text",
+      "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": "functions.execute_sql_query:0",
+      "function": {
+       "name": "execute_sql_query",
+       "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT COUNT(*) FROM animals WHERE species = 'pig';"
+     },
+     "call_id": "functions.execute_sql_query:0"
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+  }
+ },
+ {
+  "preset": "kimi-k2.6",
+  "name": "section without its end marker",
+  "sampled_text": "Checking.</think>Query:<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT name FROM animals\"}<|tool_call_end|><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Checking."
+    },
+    {
+     "type": "text",
+     "text": "Query:<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT name FROM animals\"}<|tool_call_end|>"
+    }
+   ]
+  },
+  "expected": {
+   "text": "Query:<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT name FROM animals\"}<|tool_call_end|>",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Checking."
+     },
+     {
+      "type": "text",
+      "text": "Query:<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT name FROM animals\"}<|tool_call_end|>"
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT name FROM animals"
+     },
+     "call_id": "functions.execute_sql_query:0"
+    }
+   ],
+   "intent": false,
+   "intent_kimi_markers": true,
+   "answer": "Query:<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT name FROM animals\"}<|tool_call_end|>"
+  }
+ },
+ {
+  "preset": "kimi-k2.6",
+  "name": "call cut off at the token cap",
+  "sampled_text": "Checking.</think><|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT na",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Checking."
+    },
+    {
+     "type": "text",
+     "text": "<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT na"
+    }
+   ]
+  },
+  "expected": {
+   "text": "<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT na",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Checking."
+     },
+     {
+      "type": "text",
+      "text": "<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT na"
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {},
+     "call_id": "functions.execute_sql_query:0"
+    }
+   ],
+   "intent": false,
+   "intent_kimi_markers": true,
+   "answer": "<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{\"query\": \"SELECT na"
+  }
+ },
+ {
+  "preset": "kimi-k2.6",
+  "name": "section call with invalid JSON",
+  "sampled_text": "Checking.</think>Query:<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{not json<|tool_call_end|><|tool_calls_section_end|><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Checking."
+    },
+    {
+     "type": "text",
+     "text": "Query:"
+    }
+   ],
+   "unparsed_tool_calls": [
+    {
+     "raw_text": "<|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{not json<|tool_call_end|>",
+     "error": "tool call arguments are not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+    }
+   ]
+  },
+  "expected": {
+   "text": "Query:",
+   "execution_message": {
+    "role": "assistant",
+    "content": "Query:<|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{not json<|tool_call_end|>",
+    "unparsed_tool_calls": [
+     {
+      "raw_text": "<|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{not json<|tool_call_end|>",
+      "error": "tool call arguments are not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": "Query:<|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{not json<|tool_call_end|>"
+  }
+ },
+ {
+  "preset": "kimi-k2.6",
+  "name": "second section after an invalid first section",
+  "sampled_text": "Checking.</think>A<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{bad<|tool_call_end|><|tool_calls_section_end|>B<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:1<|tool_call_argument_begin|>{bad too<|tool_call_end|><|tool_call_begin|>functions.execute_sql_query:2<|tool_call_argument_begin|>{\"query\": \"SELECT 2\"}<|tool_call_end|><|tool_calls_section_end|><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Checking."
+    },
+    {
+     "type": "text",
+     "text": "AB<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:1<|tool_call_argument_begin|>{bad too<|tool_call_end|><|tool_call_begin|>functions.execute_sql_query:2<|tool_call_argument_begin|>{\"query\": \"SELECT 2\"}<|tool_call_end|><|tool_calls_section_end|>"
+    }
+   ],
+   "unparsed_tool_calls": [
+    {
+     "raw_text": "<|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{bad<|tool_call_end|>",
+     "error": "tool call arguments are not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+    }
+   ]
+  },
+  "expected": {
+   "text": "AB<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:1<|tool_call_argument_begin|>{bad too<|tool_call_end|><|tool_call_begin|>functions.execute_sql_query:2<|tool_call_argument_begin|>{\"query\": \"SELECT 2\"}<|tool_call_end|><|tool_calls_section_end|>",
+   "execution_message": {
+    "role": "assistant",
+    "content": "AB<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:1<|tool_call_argument_begin|>{bad too<|tool_call_end|><|tool_call_begin|>functions.execute_sql_query:2<|tool_call_argument_begin|>{\"query\": \"SELECT 2\"}<|tool_call_end|><|tool_calls_section_end|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{bad<|tool_call_end|>",
+    "unparsed_tool_calls": [
+     {
+      "raw_text": "<|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{bad<|tool_call_end|>",
+      "error": "tool call arguments are not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT 2"
+     },
+     "call_id": "functions.execute_sql_query:2"
+    }
+   ],
+   "intent": false,
+   "intent_kimi_markers": true,
+   "answer": "AB<|tool_calls_section_begin|><|tool_call_begin|>functions.execute_sql_query:1<|tool_call_argument_begin|>{bad too<|tool_call_end|><|tool_call_begin|>functions.execute_sql_query:2<|tool_call_argument_begin|>{\"query\": \"SELECT 2\"}<|tool_call_end|><|tool_calls_section_end|><|tool_call_begin|>functions.execute_sql_query:0<|tool_call_argument_begin|>{bad<|tool_call_end|>"
+  }
+ },
+ {
+  "preset": "kimi-k2.6",
+  "name": "section marker with no call",
+  "sampled_text": "Done.</think>I would call <|tool_calls_section_begin|> here.<|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Done."
+    },
+    {
+     "type": "text",
+     "text": "I would call <|tool_calls_section_begin|> here."
+    }
+   ]
+  },
+  "expected": {
+   "text": "I would call <|tool_calls_section_begin|> here.",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Done."
+     },
+     {
+      "type": "text",
+      "text": "I would call <|tool_calls_section_begin|> here."
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": true,
+   "answer": "I would call <|tool_calls_section_begin|> here."
+  }
+ },
+ {
+  "preset": "kimi-k2.6",
+  "name": "answer",
+  "sampled_text": "Done thinking.</think>Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Done thinking."
+    },
+    {
+     "type": "text",
+     "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+    }
+   ]
+  },
+  "expected": {
+   "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Done thinking."
+     },
+     {
+      "type": "text",
+      "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+  }
+ },
+ {
+  "preset": "kimi-k2.6",
+  "name": "cut off while reasoning",
+  "sampled_text": "Still thinking about <solution>SELECT 1</solution> and more",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Still thinking about <solution>SELECT 1</solution> and more"
+    }
+   ]
+  },
+  "expected": {
+   "text": "",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Still thinking about <solution>SELECT 1</solution> and more"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": ""
+  }
+ },
+ {
+  "preset": "qwen3.6-35b-a3b",
+  "name": "call",
+  "sampled_text": "I need the count.\n</think>\n\nRequirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT COUNT(*) FROM animals WHERE species = 'pig';\n</parameter>\n</function>\n</tool_call><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "I need the count."
+    },
+    {
+     "type": "text",
+     "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n"
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "execute_sql_query",
+      "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "I need the count."
+     },
+     {
+      "type": "text",
+      "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n"
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "execute_sql_query",
+       "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT COUNT(*) FROM animals WHERE species = 'pig';"
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+  }
+ },
+ {
+  "preset": "qwen3.6-35b-a3b",
+  "name": "two calls",
+  "sampled_text": "Two checks.\n</think>\n\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT COUNT(*) FROM animals WHERE species = 'pig';\n</parameter>\n</function>\n</tool_call>\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT 1\n</parameter>\n</function>\n</tool_call><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Two checks."
+    },
+    {
+     "type": "text",
+     "text": ""
+    },
+    {
+     "type": "text",
+     "text": "\n"
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "execute_sql_query",
+      "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+     }
+    },
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "execute_sql_query",
+      "arguments": "{\"query\": \"SELECT 1\"}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "\n",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Two checks."
+     },
+     {
+      "type": "text",
+      "text": ""
+     },
+     {
+      "type": "text",
+      "text": "\n"
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "execute_sql_query",
+       "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+      }
+     },
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "execute_sql_query",
+       "arguments": "{\"query\": \"SELECT 1\"}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT COUNT(*) FROM animals WHERE species = 'pig';"
+     },
+     "call_id": null
+    },
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT 1"
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": ""
+  }
+ },
+ {
+  "preset": "qwen3.6-35b-a3b",
+  "name": "call cut off at the token cap",
+  "sampled_text": "Checking.\n</think>\n\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT name FROM",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Checking."
+    },
+    {
+     "type": "text",
+     "text": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT name FROM"
+    }
+   ]
+  },
+  "expected": {
+   "text": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT name FROM",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Checking."
+     },
+     {
+      "type": "text",
+      "text": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT name FROM"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": "<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT name FROM"
+  }
+ },
+ {
+  "preset": "qwen3.6-35b-a3b",
+  "name": "answer",
+  "sampled_text": "Verified.\n</think>\n\nVerification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Verified."
+    },
+    {
+     "type": "text",
+     "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+    }
+   ]
+  },
+  "expected": {
+   "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Verified."
+     },
+     {
+      "type": "text",
+      "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+  }
+ },
+ {
+  "preset": "qwen3.8-27b",
+  "name": "call",
+  "sampled_text": "I need the count.\n</think>\n\nRequirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT COUNT(*) FROM animals WHERE species = 'pig';\n</parameter>\n</function>\n</tool_call><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "I need the count."
+    },
+    {
+     "type": "text",
+     "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n"
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "execute_sql_query",
+      "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "I need the count."
+     },
+     {
+      "type": "text",
+      "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n"
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "execute_sql_query",
+       "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT COUNT(*) FROM animals WHERE species = 'pig';"
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+  }
+ },
+ {
+  "preset": "qwen3.8-27b",
+  "name": "call with a JSON-typed value",
+  "sampled_text": "Try a number.\n</think>\n\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>\n42\n</parameter>\n</function>\n</tool_call><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Try a number."
+    },
+    {
+     "type": "text",
+     "text": ""
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "execute_sql_query",
+      "arguments": "{\"query\": 42}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Try a number."
+     },
+     {
+      "type": "text",
+      "text": ""
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "execute_sql_query",
+       "arguments": "{\"query\": 42}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": 42
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": ""
+  }
+ },
+ {
+  "preset": "qwen3.8-27b",
+  "name": "malformed function tag",
+  "sampled_text": "Checking.\n</think>\n\n<tool_call>\n<function=execute_sql_query\n<parameter=query>\nSELECT 1\n</parameter>\n</function>\n</tool_call><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Checking."
+    },
+    {
+     "type": "text",
+     "text": ""
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "execute_sql_query\n<parameter=query",
+      "arguments": "{}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Checking."
+     },
+     {
+      "type": "text",
+      "text": ""
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "execute_sql_query\n<parameter=query",
+       "arguments": "{}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query\n<parameter=query",
+     "arguments": {},
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": ""
+  }
+ },
+ {
+  "preset": "qwen3.8-27b",
+  "name": "answer",
+  "sampled_text": "Verified.\n</think>\n\nVerification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution><|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Verified."
+    },
+    {
+     "type": "text",
+     "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+    }
+   ]
+  },
+  "expected": {
+   "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Verified."
+     },
+     {
+      "type": "text",
+      "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+  }
+ },
+ {
+  "preset": "qwen3.8-27b",
+  "name": "cut off while reasoning",
+  "sampled_text": "Let me think. Draft <solution>SELECT 1</solution>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Let me think. Draft <solution>SELECT 1</solution>"
+    }
+   ]
+  },
+  "expected": {
+   "text": "",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Let me think. Draft <solution>SELECT 1</solution>"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": ""
+  }
+ },
+ {
+  "preset": "nemotron-3.5-lightning",
+  "name": "call",
+  "sampled_text": "Need the count.</think>\nRequirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n<tool_call>\n<function=execute_sql_query>\n<parameter=query>\nSELECT COUNT(*) FROM animals WHERE species = 'pig';\n</parameter>\n</function>\n</tool_call>\n<|im_end|>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Need the count."
+    },
+    {
+     "type": "text",
+     "text": "\nRequirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n"
+    },
+    {
+     "type": "text",
+     "text": "\n"
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "execute_sql_query",
+      "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "\nRequirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Need the count."
+     },
+     {
+      "type": "text",
+      "text": "\nRequirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n"
+     },
+     {
+      "type": "text",
+      "text": "\n"
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "execute_sql_query",
+       "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT COUNT(*) FROM animals WHERE species = 'pig';"
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+  }
+ },
+ {
+  "preset": "nemotron-3.5-lightning",
+  "name": "answer",
+  "sampled_text": "Checked.</think>\nVerification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution></s>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Checked."
+    },
+    {
+     "type": "text",
+     "text": "\nVerification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+    }
+   ]
+  },
+  "expected": {
+   "text": "\nVerification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Checked."
+     },
+     {
+      "type": "text",
+      "text": "\nVerification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+  }
+ },
+ {
+  "preset": "deepseek-v4.1-flash",
+  "name": "call",
+  "sampled_text": "Count the pigs.</think>Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n<｜DSML｜ calls>\n<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\" string=\"true\">SELECT COUNT(*) FROM animals WHERE species = 'pig';</｜DSML｜ parameter>\n</｜DSML｜ invoke>\n</｜DSML｜ calls><｜end▁of▁sentence｜>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Count the pigs."
+    },
+    {
+     "type": "text",
+     "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+    }
+   ],
+   "tool_calls": [
+    {
+     "type": "function",
+     "id": null,
+     "function": {
+      "name": "execute_sql_query",
+      "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+     }
+    }
+   ]
+  },
+  "expected": {
+   "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Count the pigs."
+     },
+     {
+      "type": "text",
+      "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+     }
+    ],
+    "tool_calls": [
+     {
+      "type": "function",
+      "id": null,
+      "function": {
+       "name": "execute_sql_query",
+       "arguments": "{\"query\": \"SELECT COUNT(*) FROM animals WHERE species = 'pig';\"}"
+      }
+     }
+    ]
+   },
+   "calls": [
+    {
+     "name": "execute_sql_query",
+     "arguments": {
+      "query": "SELECT COUNT(*) FROM animals WHERE species = 'pig';"
+     },
+     "call_id": null
+    }
+   ],
+   "intent": true,
+   "intent_kimi_markers": true,
+   "answer": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+  }
+ },
+ {
+  "preset": "deepseek-v4.1-flash",
+  "name": "invoke rejected by the renderer",
+  "sampled_text": "Count the pigs.</think>Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.\n\n<｜DSML｜ calls>\n<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\">SELECT COUNT(*) FROM animals WHERE species = 'pig';</｜DSML｜ parameter>\n</｜DSML｜ invoke>\n</｜DSML｜ calls><｜end▁of▁sentence｜>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Count the pigs."
+    },
+    {
+     "type": "text",
+     "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'."
+    }
+   ],
+   "unparsed_tool_calls": [
+    {
+     "raw_text": "<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\">SELECT COUNT(*) FROM animals WHERE species = 'pig';</｜DSML｜ parameter>\n</｜DSML｜ invoke>",
+     "error": "Malformed DSML parameters"
+    }
+   ]
+  },
+  "expected": {
+   "text": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.",
+   "execution_message": {
+    "role": "assistant",
+    "content": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\">SELECT COUNT(*) FROM animals WHERE species = 'pig';</｜DSML｜ parameter>\n</｜DSML｜ invoke>",
+    "unparsed_tool_calls": [
+     {
+      "raw_text": "<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\">SELECT COUNT(*) FROM animals WHERE species = 'pig';</｜DSML｜ parameter>\n</｜DSML｜ invoke>",
+      "error": "Malformed DSML parameters"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": "Requirement of external knowledge 1 (pig is represented by species = 'pig'): filter on species = 'pig'.<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\">SELECT COUNT(*) FROM animals WHERE species = 'pig';</｜DSML｜ parameter>\n</｜DSML｜ invoke>"
+  }
+ },
+ {
+  "preset": "deepseek-v4.1-flash",
+  "name": "calls block cut off at the token cap",
+  "sampled_text": "Count.</think>\n\n<｜DSML｜ calls>\n<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\" string=\"true\">SELECT name FR",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Count."
+    },
+    {
+     "type": "text",
+     "text": "<｜DSML｜ calls>\n<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\" string=\"true\">SELECT name FR"
+    }
+   ]
+  },
+  "expected": {
+   "text": "<｜DSML｜ calls>\n<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\" string=\"true\">SELECT name FR",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Count."
+     },
+     {
+      "type": "text",
+      "text": "<｜DSML｜ calls>\n<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\" string=\"true\">SELECT name FR"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": "<｜DSML｜ calls>\n<｜DSML｜ invoke name=\"execute_sql_query\">\n<｜DSML｜ parameter name=\"query\" string=\"true\">SELECT name FR"
+  }
+ },
+ {
+  "preset": "deepseek-v4.1-flash",
+  "name": "answer",
+  "sampled_text": "Checked.</think>Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution><｜end▁of▁sentence｜>",
+  "message": {
+   "role": "assistant",
+   "content": [
+    {
+     "type": "thinking",
+     "thinking": "Checked."
+    },
+    {
+     "type": "text",
+     "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+    }
+   ]
+  },
+  "expected": {
+   "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>",
+   "execution_message": {
+    "role": "assistant",
+    "content": [
+     {
+      "type": "thinking",
+      "thinking": "Checked."
+     },
+     {
+      "type": "text",
+      "text": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+     }
+    ]
+   },
+   "calls": [],
+   "intent": false,
+   "intent_kimi_markers": false,
+   "answer": "Verification of external knowledge 1 (pig is represented by species = 'pig'): the query filters on it.\n<solution>SELECT COUNT(*) FROM animals WHERE species = 'pig';</solution>"
+  }
+ }
+]
