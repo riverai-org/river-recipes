@@ -215,7 +215,7 @@ class EvaluationTaskTest(unittest.TestCase):
 class RegistryTest(unittest.TestCase):
     def test_every_preset_names_a_registered_train_and_validation_split_of_one_release(self):
         recipes = [config.RecipeConfig()] + [config.load(path) for path in PRESETS]
-        self.assertEqual(len(recipes), 7)
+        self.assertEqual(len(recipes), 8)
         for recipe in recipes:
             with self.subTest(train=recipe.data.train, validation=recipe.data.validation):
                 train, validation = data.DATASETS[recipe.data.train], data.DATASETS[recipe.data.validation]

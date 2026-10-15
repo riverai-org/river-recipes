@@ -51,7 +51,7 @@ class ReleaseArtifactsTest(unittest.TestCase):
         self.assertEqual({name for name in top if not name.endswith(".dist-info")}, {"text_to_sql_recipe"})
         presets = {Path(name).stem for name in self.wheel if name.startswith("text_to_sql_recipe/recipes/")}
         self.assertEqual(presets, set(config.presets()))
-        self.assertEqual(len(presets), 6)
+        self.assertEqual(len(presets), 7)
 
     def test_both_artifacts_carry_the_license(self):
         self.assertIn("Apache License", self.sdist["LICENSE"].decode())

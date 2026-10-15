@@ -14,12 +14,12 @@ PRESETS = sorted((ROOT / "src/text_to_sql_recipe/recipes").glob("*.toml"))
 
 class PresetTest(unittest.TestCase):
     def test_every_preset_loads_and_validates(self):
-        self.assertEqual(len(PRESETS), 6)
+        self.assertEqual(len(PRESETS), 7)
         for path in PRESETS:
             with self.subTest(preset=path.name):
                 recipe = config.load(path)
                 self.assertTrue(recipe.model.name)
-                self.assertTrue(recipe.model.tokenizer_revision)
+                self.assertRegex(recipe.model.tokenizer_revision, "^[0-9a-f]{40}$")  # a full commit, not a branch
 
     def test_presets_differ_only_where_the_model_needs_it(self):
         # the shared core stays at its defaults in every preset
@@ -56,6 +56,12 @@ class PresetTest(unittest.TestCase):
         lightning = config.load("nemotron-3.5-lightning")
         self.assertEqual(lightning.training.num_train_epochs, 7)
         self.assertTrue(lightning.model.routing_replay)
+
+    def test_super_vl_runs_the_defaults_with_routing_replay(self):
+        super_vl = config.load("nemotron-3.5-super-vl")
+        self.assertEqual(super_vl.training.num_train_epochs, 5)
+        self.assertEqual(super_vl.rollout.max_tokens_per_turn, 3072)
+        self.assertTrue(super_vl.model.routing_replay)
 
     def test_deepseek_runs_max_effort_with_room_to_think(self):
         deepseek = config.load("deepseek-v4.1-flash")

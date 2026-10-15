@@ -70,6 +70,7 @@ defaults in `src/text_to_sql_recipe/config.py`, which are the settings every mod
 | `qwen3.6-35b-a3b` | Qwen3.6-35B-A3B |
 | `deepseek-v4.1-flash` | DeepSeek V4.1 Flash |
 | `nemotron-3.5-lightning` | Nemotron 3.5 Lightning |
+| `nemotron-3.5-super-vl` | Nemotron 3.5 Super VL |
 
 Print the full resolved settings for a preset, with any overrides applied:
 
