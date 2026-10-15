@@ -20,7 +20,7 @@ COPY pyproject.toml README.md LICENSE ./
 COPY src ./src
 
 # A River client release with the features `train` checks for; --build-arg RIVER_CLIENT=... installs another.
-ARG RIVER_CLIENT="river-client>=0.13"
+ARG RIVER_CLIENT="river-client>=0.14.1"
 RUN pip install "${RIVER_CLIENT}" ".[verieql,data]"
 
 ARG ACCEPT_VERIEQL_LICENSE=no
