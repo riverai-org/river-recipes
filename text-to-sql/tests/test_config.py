@@ -46,8 +46,11 @@ class PresetTest(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):  # a path never falls back to a preset
             config.load("elsewhere/glm-5.3-flash.toml")
 
-    def test_glm_runs_seven_epochs(self):
-        self.assertEqual(config.load("glm-5.3-flash").training.num_train_epochs, 7)
+    def test_presets_run_five_epochs_with_the_hint_mask_except_lightning(self):
+        for name in config.presets():
+            settings = config.load(name)
+            self.assertTrue(settings.data.hint_mask, name)
+            self.assertEqual(settings.training.num_train_epochs, 7 if name == "nemotron-3.5-lightning" else 5, name)
 
     def test_lightning_runs_seven_epochs_with_routing_replay(self):
         lightning = config.load("nemotron-3.5-lightning")
@@ -70,7 +73,7 @@ class PresetTest(unittest.TestCase):
         }
         self.assertEqual(dataclasses.asdict(config.CurriculumConfig()), endorsed)
         self.assertEqual(dataclasses.asdict(config.DataConfig()),
-                         {"train": "revisql-verified", "validation": "revisql-verified-validation"})
+                         {"train": "revisql-verified", "validation": "revisql-verified-validation", "hint_mask": True})
         for path in PRESETS:
             with self.subTest(preset=path.name):
                 raw = tomllib.loads(path.read_text())

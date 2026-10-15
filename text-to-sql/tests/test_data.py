@@ -351,5 +351,18 @@ class TaskManifestTest(unittest.TestCase):
                 data.task_manifest_sha256(ids)
 
 
+
+class HintMaskTest(unittest.TestCase):
+    def test_the_mask_names_training_tasks(self):
+        self.assertEqual(len(data.HINT_MASK), 31)
+        for task_id in data.HINT_MASK:
+            self.assertRegex(task_id, r"^revisql-train:\d+$")
+
+    def test_masked_rows_are_left_out_and_the_rest_keep_their_order(self):
+        rows = [{"id": "revisql-train:7"}, {"id": "revisql-train:33"}, {"id": "revisql-train:3"},
+                {"id": "revisql-train:1538"}, {"id": "revisql-validation:33"}]
+        self.assertEqual(data.apply_hint_mask(rows),
+                         [{"id": "revisql-train:7"}, {"id": "revisql-train:3"}, {"id": "revisql-validation:33"}])
+
 if __name__ == "__main__":
     unittest.main()

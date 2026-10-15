@@ -118,6 +118,7 @@ class EvaluationConfig:
 class DataConfig:
     train: str = "revisql-verified"           # dataset name, resolved under TEXT_TO_SQL_DATA_DIR
     validation: str = "revisql-verified-validation"
+    hint_mask: bool = True                    # leave the training questions in data.HINT_MASK out of the run
 
 
 @dataclass(frozen=True)

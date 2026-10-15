@@ -447,6 +447,33 @@ class EndToEndTest(unittest.TestCase):
         self.assertEqual(plan["identities"]["verifier"]["manifest_sha256"], "a" * 64)
         self.assertEqual(set(plan["identities"]), {"river_client", "tokenizer", "verifier"})
 
+    def test_the_hint_mask_leaves_its_questions_out_of_the_run(self):
+        rows = [dict(self.train_rows[0], id="revisql-train:33"), *self.train_rows[1:]]
+        client = SimpleNamespace(get_server_capabilities=lambda: SimpleNamespace(require=lambda *args: None),
+                                 session=lambda **kwargs: contextlib.nullcontext(
+                                     SimpleNamespace(create_model=lambda **kwargs: Model())),
+                                 close=lambda: None)
+        trained = {}
+
+        async def capture_training(*args, **kwargs):
+            trained["ids"] = [str(row["id"]) for row in args[6]]
+
+        connection = config.Connection(api_key="offline-test", base_url="https://example.invalid",
+                                       data_dir=self.run_dir, output_dir=self.run_dir)
+        for hint_mask, ids in ((True, ["q1", "q2", "q3"]), (False, ["revisql-train:33", "q1", "q2", "q3"])):
+            run_dir = self.run_dir / f"hint-mask-{hint_mask}"
+            run_dir.mkdir()
+            settings = recipe(training={"warmup_steps": 0}, evaluation={"arcwise": False},
+                              data={"hint_mask": hint_mask})
+            with patch.object(train, "preflight"), \
+                    patch.object(train.data, "load_splits", return_value=(rows, self.validation_rows)), \
+                    patch.object(train.river, "load_tokenizer", return_value=Tokenizer()), \
+                    patch.object(train, "get_renderer", return_value=Renderer()), \
+                    patch.object(train.river, "Client", return_value=client), \
+                    patch.object(train, "_train", capture_training), contextlib.redirect_stdout(io.StringIO()):
+                train.run(settings, run_dir, connection)
+            self.assertEqual(trained["ids"], ids)
+
     def test_training_continues_while_a_checkpoint_is_evaluated(self):
         original = evaluate.evaluate_suite
         log = self.run_dir / "steps.jsonl"
