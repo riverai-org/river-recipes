@@ -6,9 +6,6 @@ tokenizer_revision = "04c4e9e95c5da8862dced7e5056455116f83a7e0"  # a public Hugg
 routing_replay = true
 reasoning_effort = "max"                   # its highest; also the chat template default
 
-[training]
-num_train_epochs = 7
-
 [evaluation]
 concurrency = 128
 

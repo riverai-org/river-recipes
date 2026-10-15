@@ -55,6 +55,20 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import NamedTuple
 
+# Training questions the hint mask leaves out (`DataConfig.hint_mask`, on by default). In each, the gold query does
+# not answer the question as written: a join or filter the question does not ask for, an output form it does not ask
+# for (a code instead of a name, one wide row instead of one row per item, an extra column, scaling or rounding it does
+# not mention), or, for 1538, an answer that moves with today's date while gold results are computed once per run.
+# Training on them rewards a wrong answer, and their training hints teach it.
+HINT_MASK = frozenset(f"revisql-train:{n}" for n in (
+    33, 340, 535, 536, 596, 1000, 1234, 1501, 1538, 1558, 2155, 2174, 2415, 2441, 2807, 2934, 3207, 3266, 4071, 4416,
+    4718, 4733, 4792, 5196, 5198, 6727, 8742, 9023, 9047, 9081, 9087,
+))
+
+
+def apply_hint_mask(rows: list[dict]) -> list[dict]:
+    """The rows whose task ids are not in `HINT_MASK`, in their original order."""
+    return [row for row in rows if str(row["id"]) not in HINT_MASK]
 
 @dataclass(frozen=True)
 class Release:

@@ -36,12 +36,14 @@ Around the episode:
   a question by how informative its last results were: one solved about half the time most often, one last solved
   16/16 or failed 0/16 rarely (`curriculum.evidence_solved_weight`, `curriculum.evidence_failed_weight`). A question
   that every rollout fails is retried with its evidence and then, with `curriculum.hints`, with a training hint; only
-  the final stage trains. The `curriculum` module documents the schedule in full.
+  the final stage trains. The `curriculum` module documents the schedule in full. With `data.hint_mask` (on by
+  default), 31 training questions whose gold queries do not answer them as written are left out, so neither
+  their reward nor their hints teach a wrong answer; `data.py` lists them and why.
 - **Stability.** A turn that hits its token cap while repeating itself is cut where the loop began and scored as no
   answer, with the loss masked past the cut. The gradient clip follows the run's recent gradient norms (twice the
   median of the last 20). Two rules stop a run:
-  - **Collapse pause** (`guards`): after `guards.collapse_arm_after_steps` steps (33, one epoch of the default
-    training set), two steps in a row in which more than 5% of rollouts hit the token cap and more than 1% repeat
+  - **Collapse pause** (`guards`): after `guards.collapse_arm_after_steps` steps (33, about one epoch of the
+    default training set), two steps in a row in which more than 5% of rollouts hit the token cap and more than 1% repeat
     themselves pause the run. It writes `collapse-pause.json` to the run directory and refuses to start again while
     that file exists: look at the run's recent rollouts, then delete the file and run the same command, with the same
     `--run-name`, to resume.
@@ -82,7 +84,8 @@ the package pins, into `TEXT_TO_SQL_DATA_DIR` (default `./data`). It then checks
 pins and every database against the rows that name it. The release holds:
 
 - `revisql-verified`: the BIRD-Platinum tasks every preset trains on, the ReViSQL authors' verified release of 2,064
-  training and 398 validation tasks, with their training hints and BIRD's 69 training databases;
+  training and 398 validation tasks, with their training hints and BIRD's 69 training databases (a run trains
+  on 2,033 of the training tasks unless `data.hint_mask = false`);
 - `bird-platinum-hard`: a named subset of 689 harder training tasks (`data.train = "bird-platinum-hard"`);
 - `arcwise`: the 498 Arcwise-Plat-SQL evaluation tasks, with the gold queries the ReViSQL paper evaluated, and the 11
   BIRD Mini-Dev databases.

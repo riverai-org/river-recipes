@@ -439,6 +439,8 @@ def run(recipe: RecipeConfig, run_dir: Path, connection: Connection, *, max_step
     training, execution = recipe.training, recipe.execution
     data_dir = connection.data_dir
     train_rows, validation_rows = data.load_splits(recipe.data.train, recipe.data.validation, data_dir)
+    if recipe.data.hint_mask:
+        train_rows = data.apply_hint_mask(train_rows)
     suites = {"validation": validation_rows}
     if recipe.evaluation.arcwise:
         # Arcwise is graded as the ReViSQL authors grade it unless the recipe asks for strict grading; training and
