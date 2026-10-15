@@ -70,6 +70,7 @@ defaults in `src/text_to_sql_recipe/config.py`, which are the settings every mod
 | `qwen3.6-35b-a3b` | Qwen3.6-35B-A3B |
 | `deepseek-v4.1-flash` | DeepSeek V4.1 Flash |
 | `nemotron-3.5-lightning` | Nemotron 3.5 Lightning |
+| `nemotron-3.5-super-vl` | Nemotron 3.5 Super VL |
 
 Print the full resolved settings for a preset, with any overrides applied:
 
@@ -124,7 +125,7 @@ python -m text_to_sql_recipe train --recipe <preset>                            
 python -m text_to_sql_recipe train --recipe <preset> --set 'reward.verifier="none"'   # without it
 ```
 
-The process drives River over its API, so a laptop is enough. It needs river-client 0.13 or newer; `train` names any
+The process drives River over its API, so a laptop is enough. It needs river-client 0.14.1 or newer; `train` names any
 client feature it lacks before it does any work, and also checks that the data directory holds the named datasets
 and, with VeriEQL, that its runtime is set. `--max-steps N` stops after N training batches for a quick trial (a batch
 whose groups all carry no learning signal makes no optimizer step), and `--run-name` picks the run directory under

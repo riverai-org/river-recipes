@@ -5,10 +5,10 @@ description = "Reinforcement-learning recipe that teaches language models multi-
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "Apache-2.0" }
-# 0.13 is the first river-client release with every feature the recipe uses: Trajectory.loss_mask_end,
-# RolloutEngine.resubmit, AsyncTrainer(dataset_scheduler=...) and the trainer's stop on a non-finite optimizer step.
-# `train` names any that are missing before it starts.
-dependencies = ["river-client>=0.13"]
+# 0.14.1 is the first river-client release that renders Nemotron 3.5 Super VL. The recipe's other needs date from 0.13:
+# Trajectory.loss_mask_end, RolloutEngine.resubmit, AsyncTrainer(dataset_scheduler=...) and the trainer's stop on a
+# non-finite optimizer step, and `train` names any of those that are missing before it starts.
+dependencies = ["river-client>=0.14.1"]
 
 [project.optional-dependencies]
 # Everything the full test suite uses: hatchling builds the release artifacts the tests scan; sqlglot runs the
